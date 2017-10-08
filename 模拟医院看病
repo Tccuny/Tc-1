@@ -1,0 +1,58 @@
+# Tc-1
+#include <iostream>
+#include <cstdlib>
+#include <queue>
+using namespace std;
+const int maxsize = 1000;
+
+struct Registration
+{
+    char ch;
+    int num;
+};
+
+
+int main()
+{
+    char x;
+    int y, m;
+    int i = 0;
+    queue<Registration> q;
+    Registration R[maxsize];
+    while(cin>>x)
+    {
+        if(x=='A'||x=='a')
+        {
+            cin>>y;
+            R[i].ch = x;
+            R[i].num = y;
+            q.push(R[i]);
+            i++;
+        }
+        else if(x=='n'||x=='N')
+        {
+            if(q.empty())
+                cout<<"无病人就诊"<<endl;
+            else
+            {
+                cout<<"病历号为"<<q.front().num<<"的病人就诊"<<endl;
+                q.pop();
+            }
+        }
+        else if(x=='S'||x=='s')
+        {
+
+            m = q.size();
+            cout<<"今天不再接收病人排队，下列排队的病人依次就诊：";
+            for(int i=0; i<m; i++)
+            {
+                cout<<q.front().num<<" ";
+                q.pop();
+            }
+        }
+
+        else
+            cout<<"输入命令不合法！"<<endl;
+    }
+    return 0;
+}
