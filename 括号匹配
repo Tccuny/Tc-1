@@ -1,0 +1,42 @@
+# Tc-1
+#include <iostream>
+#include <stack>
+#include <cstdio>
+#include <cstdlib>
+
+using namespace std;
+const int maxLength = 100;
+
+
+int main()
+{
+    stack<char> s;
+    int ch,temp;
+    while(1)
+    {
+        ch = getchar();
+        {
+            if(ch == '#')
+                break;
+            if(ch =='('||ch=='['||ch=='{')
+                s.push(ch);
+            if(ch ==')'||ch==']'||ch=='}')
+            {
+                temp = s.top();
+                if(ch==')'&&temp=='(')
+                    s.pop();
+                else if(ch==']'&&temp=='[')
+                    s.pop();
+                else if(ch=='}'&&temp=='{')
+                    s.pop();
+
+            }
+        }
+    }
+
+    if(s.empty())
+        cout<<"匹配"<<endl;
+    else
+        cout<<"不匹配"<<endl;
+    return 0;
+}
