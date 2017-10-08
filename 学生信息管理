@@ -1,0 +1,171 @@
+# Tc-1
+#include <iostream>
+#include<string>
+#include <iomanip>
+using namespace std;
+
+struct Node
+{
+    int number;
+    string name;
+    float score1;
+    float score2;
+    float score3;
+    double ave;
+    int alexa;
+    Node* link;
+};
+
+class Recordstu
+{
+private:
+    Node* first;
+public:
+    Recordstu()
+    {
+        first = NULL;
+    }
+    void input(int number,string name,float score1,float score2,float score3);
+
+    void output();
+    void sorted();
+    void countave();
+    void ranked();
+};
+void Recordstu::input(int number,string name,float score1,float score2,float score3)
+{
+    Node* rear = NULL;
+    Node* newNode = new Node;
+    newNode->number=number;
+    newNode->name=name;
+    newNode->score1=score1;
+    newNode->score2=score2;
+    newNode->score3=score3;
+    newNode->link=NULL;
+    if(NULL==first)
+    {
+        first=newNode;
+    }
+    else
+    {
+        rear=first;
+        while(rear->link)
+        {
+            rear=rear->link;
+        }
+        rear->link=newNode;
+    }
+
+}
+void Recordstu::countave()
+{
+    Node* current = first;
+    if(first==NULL)
+    {
+        cout<<"error"<<endl;
+    }
+    else
+    {
+        while(current != NULL)
+        {
+            current->ave=(current->score1+current->score2+current->score3)/3;
+            current=current->link;
+        }
+    }
+}
+void Recordstu::sorted()
+{
+      //外层循环迭代指针
+      Node* iter1=first;
+      Node* preIter1=first;
+      //内层循环迭代指针
+      Node* iter2;
+      Node* preIter2;
+      //标记最小值所在结点
+      Node* mark;
+      Node* preMark;
+      Node* tmp;
+
+      while(iter1&&iter1->link)
+      {
+            mark=iter1;
+            preMark=preIter1;
+
+            iter2=iter1;
+            preIter2=preIter1;
+
+            while(iter2)
+            {
+                  if(iter2->ave>mark->ave)
+                  {
+                        mark=iter2;
+                        preMark=preIter2;
+                  }
+                  preIter2=iter2;
+                  iter2=iter2->link;
+            }
+            if(iter1==first)//将最小值所在结点放到表头
+            {
+                  tmp=mark->link;
+                  mark->link=first;
+                  first=mark;
+                  preMark->link=tmp;
+                  iter1=first;
+            }
+            else if(iter1!=mark)
+            {
+                  tmp=mark->link;
+                  mark->link=preIter1->link;
+                  preIter1->link=mark;
+                  preMark->link=tmp;
+                  iter1=mark;
+            }
+            preIter1=iter1;
+            iter1=iter1->link;
+            //cout<<*this<<endl;
+      }
+}
+void Recordstu::ranked()
+{
+    int i =0;
+    Node* current = first;
+    while(current)
+    {
+        i++;
+        current->alexa = i;
+        current=current->link;
+    }
+}
+void Recordstu::output()
+{
+    Node* current = first;
+    while(current != NULL)
+    {
+        cout<<current->number<<" "<<current->name<<" "<<setiosflags(ios::fixed)<<setprecision(2)<<current->score1<<" "<<
+        current->score2<<" "<<current->score3<<" "<<current->ave<<" "<<current->alexa<<endl;
+        current=current->link;
+    }
+
+}
+int main()
+{
+
+    int n;
+    cin>>n;
+    int nu;
+    string na;
+    float sc1;
+    float sc2;
+    float sc3;
+    Recordstu x;
+    for(int i=0; i<n; i++)
+    {
+        cin>>nu>>na>>sc1>>sc2>>sc3;
+        x.input(nu,na,sc1,sc2,sc3);
+    }
+    x.countave();
+    x.sorted();
+    x.ranked();
+    x.output();
+}
+
