@@ -1,0 +1,35 @@
+# Tc-1
+#include <iostream>
+#include<stack>
+#include<string>
+const int maxsize = 1000;
+
+using namespace std;
+struct Information
+{
+    string name;
+    int number;
+    string sex;
+    int age;
+    string grade;
+    string health;
+};
+int main()
+{
+
+    stack<Information> s;
+    Information T[maxsize];
+    int n;
+    cin>>n;
+    for(int i = 0;i<n;i++)
+    {
+        cin>>T[i].name>>T[i].number>>T[i].sex>>T[i].age>>T[i].grade>>T[i].health;
+        s.push(T[i]);
+    }
+    for(int i=0;i<n;i++)
+    {
+        cout<<s.top().name<<" "<<s.top().number<<" "<<s.top().sex<<" "<<s.top().age<<" "<<s.top().grade<<" "<<s.top().health<<endl;
+        s.pop();
+    }
+    return 0;
+}
