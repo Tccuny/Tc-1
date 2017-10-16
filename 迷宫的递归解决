@@ -1,0 +1,79 @@
+#include <iostream>
+#include <stack>
+
+using namespace std;
+
+const int mz = 10000;
+
+struct node
+{
+    int a,b;
+};
+node T[mz];
+int m,n,r=0;
+int Maze[mz][mz];
+int s1,s2,e1,e2;
+stack<node> sk;
+int dx[]= {1, 0, 0, -1};
+int dy[]= {0, 1, -1, 0};
+
+int Seekpath(int x, int y)
+{
+    if(x==e1 && y==e2)
+    {
+        return true;
+    }
+    for(int i=0; i<4; i++)
+    {
+        if(Maze[x+dx[i]][y+dy[i]] != 1)
+        {
+            Maze[x+dx[i]][y+dy[i]] = 1;
+            if(Seekpath(x+dx[i], y+dy[i]))
+            {
+                T[r].a=x;
+                T[r].b=y;
+                sk.push(T[r]);
+                r++;
+
+                //cout << y << " " << x << endl;
+                return true;
+            }
+
+        }
+    }
+    return false;
+}
+
+int main()
+{
+    int j,k;
+    cin>>n>>m;
+    for(j=0; j<m; j++)
+    {
+        for(k=0; k<n; k++)
+        {
+            cin>>Maze[j][k];
+            if(Maze[j][k]==3)
+            {
+                s1=j;
+                s2=k;
+                Maze[j][k]=1;
+            }
+            if(Maze[j][k]==4)
+            {
+                e1=j;
+                e2=k;
+            }
+        }
+    }
+    Seekpath(s1,s2);
+
+    while(!sk.empty())
+    {
+        cout<<sk.top().b<<" "<<sk.top().a<<endl;
+        sk.pop();
+    }
+    cout<<e2<<" "<<e1<<endl;
+
+    return 0;
+}
