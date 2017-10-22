@@ -1,0 +1,106 @@
+#include <iostream>
+#include <stack>
+const int mz = 2000;
+
+using namespace std;
+
+struct items
+{
+    int x,y;
+    int dir;
+};
+stack<items> sk;
+int m,n;
+int s1,s2,e1,e2;
+int Maze[mz][mz];
+int Mark[mz][mz];
+int dx[]= {0,-1,0,1};
+int dy[]= {1,0,-1,0};
+
+void path(int x,int y)
+{
+    int i,j,d,g=0,h=0;
+    stack<items> st;
+    Mark[s1][s2]=1;
+    items tmp;
+    tmp.x=s1,tmp.y=s2,tmp.dir=0;
+    st.push(tmp);
+    while(st.empty()==false)
+    {
+        i = st.top().x;
+        j = st.top().y;
+        d = st.top().dir;
+        st.pop();
+        while(d<4)
+        {
+            g = i + dx[d];
+            h = j + dy[d];
+            if(Maze[g][h]==4)
+            {
+                tmp.x=i,tmp.y=j,tmp.dir=d;
+                st.push(tmp);
+                while(!st.empty())
+                {
+                    sk.push(st.top());
+                    st.pop();
+                }
+                while(!sk.empty())
+                {
+                    cout<<sk.top().x<<" "<<sk.top().y<<endl;
+                    sk.pop();
+                }
+                cout<<e1<<" "<<e2<<endl;
+                return;
+            }
+            if(Maze[g][h]==0&&Mark[g][h]==0)
+            {
+                Mark[g][h]=1;
+                tmp.x=i;
+                tmp.y=j;
+                tmp.dir=d;
+                st.push(tmp);
+                i = g, j = h, d = 0;
+            }
+            else d++;
+        }
+    }
+    cout<<"no path in Maze"<<endl;
+
+};
+int main()
+{
+    int j,k;
+    cin>>n>>m;
+    for(j=0; j<m; j++)
+    {
+        for(k=0; k<n; k++)
+        {
+            cin>>Maze[k][j];
+            if(Maze[k][j]==3)
+            {
+                s1=k;
+                s2=j;
+                Maze[k][j]=1;
+            }
+            if(Maze[k][j]==4)
+            {
+                e1=k;
+                e2=j;
+            }
+        }
+    }
+    for(j=0; j<m; j++)
+    {
+        for(k=0; k<n; k++)
+        {
+            Mark[k][j]=0;
+        }
+    }
+    path(s1,s2);
+
+
+    return 0;
+
+
+}
+
